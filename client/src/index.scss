@@ -8,7 +8,7 @@
 
 :root {
     --hover: #6951ca;
-    --color-1: var(--color-1);
+    --color-1: #a18aff;
 }
 
 body {
@@ -168,7 +168,6 @@ input {
         &:not(:last-child) {
             margin-bottom: 1rem;
         }
-
         &:hover {
             background: var(--hover);
             color: #ffffff;
