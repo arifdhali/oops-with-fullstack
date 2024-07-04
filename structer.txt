@@ -1,0 +1,17 @@
+// Front end
+item-management-system/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── Login.js
+│   │   ├── Register.js
+│   │   ├── ItemList.js
+│   │   ├── ItemForm.js
+│   ├── App.js
+│   ├── index.js
+│   ├── api.js
+├── package.json
+
+
+
+*** REVISE OOPS CONCEPT USING REACT AND NODE JS
