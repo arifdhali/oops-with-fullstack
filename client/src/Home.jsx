@@ -3,7 +3,6 @@ import { LeftDashboard, RightDashboard } from './components'
 
 const Home = () => {
   return (
-    <section className='wrapper'>
         <div className="row vh-100 p-3">
           <div className="col-2">
             <div className="left-bar py-5 position-relative h-100">
@@ -16,7 +15,6 @@ const Home = () => {
             </div>
           </div>
       </div>
-    </section>
   )
 }
 

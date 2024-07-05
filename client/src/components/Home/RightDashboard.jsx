@@ -5,10 +5,16 @@ const RightDashboard = () => {
     return (
         <div className="main-content">
             <div className="page-healine">
-                <strong>Today main focus </strong>
-                <h3>Object oriented programmnig</h3>
+                <span>Today main focus </span>
+                <h3>Task 2</h3>
             </div>
-            <div className="page-conent mt-5">
+            <div className="mt-5">
+                <form action="" className="form">
+                    <label htmlFor="searchTask" className="fw-semibold">Search task</label>
+                    <input className="form-control shadow-none border-0 p-2" id="searchTask" type="text" />
+                </form>
+            </div>
+            <div className="page-conent mt-4">
                 <ul className="task-container">
                     <li className="task-item p-3 d-flex align-items-center justify-content-between">
                         <div className="d-flex align-items-center">
