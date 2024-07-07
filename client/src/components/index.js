@@ -1,8 +1,8 @@
-export {default as Login} from "./Login"
-export { default as Register } from "./Register"
-export { default as ItemList } from "./ItemList"
-export { default as Itemform } from "./ItemForm"
+export {default as Login} from "./auth/Login"
+export { default as Register } from "./auth/Register"
+export { default as ItemList } from "./Home/ItemList"
+export { default as Itemform } from "./Home/ItemForm"
 
 // Home
-export {default as LeftDashboard} from "./Home/LeftDashboard"
-export {default as RightDashboard} from "./Home/RightDashboard"
+export {default as LeftDashboard} from "./LeftDashboard"
+export {default as RightDashboard} from "./RightDashboard"
