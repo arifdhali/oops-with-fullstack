@@ -11,7 +11,7 @@ const App = () => {
           <Route path='/' Component={Home} />
           <Route path='/login' Component={Login} />
           <Route path='/register' Component={Register} />
-          <Route  path='/task' Component={ItemList} />
+          {/* <Route  path='/task' Component={ItemList} /> */}
           <Route  path='/add-task' Component={Itemform} />
         </Routes>
       </Router>

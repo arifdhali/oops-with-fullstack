@@ -53,6 +53,10 @@ h1 {
     font-size: 40px;
 }
 
+h3 {
+    font-weight: 600;
+}
+
 .login-box {
     max-width: 500px;
     width: 100%;
@@ -219,5 +223,11 @@ input {
         fill: #717082;
         font-size: 25px;
         margin-right: 10px;
+    }
+}
+
+.add-form {
+    label {
+        color: #717082;
     }
 }
