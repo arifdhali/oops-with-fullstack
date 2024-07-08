@@ -1,1 +1,217 @@
-@import"https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap";*{box-sizing:border-box;margin:0;padding:0}:root{--hover: #6951ca;--color-1: #a18aff}body{font-family:"Roboto",sans-serif;background:#fff;overflow-x:hidden}label{display:block}a{text-decoration:none}ul,ol{padding:0;margin:0}li{list-style-type:none}.btn{border:0;padding:10px 15px}.btn-primary{background:var(--color-1)}.btn-primary:hover{background:var(--hover)}h1{font-size:40px}h3{font-weight:600}.login-box{max-width:500px;width:100%;box-shadow:0 0 5px 2px rgba(0,0,0,.1);padding:30px;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-ms-border-radius:10px;-o-border-radius:10px;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-o-transform:translate(-50%, -50%)}.login-box label{color:#717082}input{color:#717082;box-shadow:none;outline:0}.login-title svg{font-size:70px}.user-info{padding-bottom:40px;border-bottom:3px solid var(--color-1)}.user-info strong{font-weight:400;color:var(--color-1)}.user-img{width:50px;height:50px;-o-object-fit:cover;object-fit:cover;border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%}.menu{padding-top:20px}.menu-item{padding:10px}.menu-item:not(:last-child){margin-bottom:5px}.menu-item:hover{background:var(--color-1)}.menu-item:hover a,.menu-item:hover svg{color:#fff}.menu-link{display:block;color:gray;font-size:16px}.menu-link svg{font-size:25px;color:var(--color-1);margin-right:10px}.right-bar{background:var(--color-1);border-radius:0 10px 10px 0;-webkit-border-radius:0 10px 10px 0;-moz-border-radius:0 10px 10px 0;-ms-border-radius:0 10px 10px 0;-o-border-radius:0 10px 10px 0;color:#fff}.task-item{background:#fff;color:#717082;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;-ms-border-radius:10px;-o-border-radius:10px;font-size:18px;transition:all .3s ease;-webkit-transition:all .3s ease;-moz-transition:all .3s ease;-ms-transition:all .3s ease;-o-transition:all .3s ease}.task-item:not(:last-child){margin-bottom:1rem}.task-item:hover{background:var(--hover);color:#fff}.task-item:hover svg{fill:#fff}.task-info svg{font-size:25px;cursor:pointer;transition:all .3s ease;-webkit-transition:all .3s ease;-moz-transition:all .3s ease;-ms-transition:all .3s ease;-o-transition:all .3s ease}.log-out{position:absolute;bottom:0;width:100%;padding:10px}.log-out a{color:var(--color-1);font-weight:500;display:block;width:100%}.log-out a:hover{color:red}.log-out svg{fill:#717082;font-size:25px;margin-right:10px}.add-form label{color:#717082}/*# sourceMappingURL=index.css.map */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --hover: #6951ca;
+  --color-1: #a18aff;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+label {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.btn {
+  border: 0;
+  padding: 10px 15px;
+}
+.btn-primary {
+  background: var(--color-1);
+}
+.btn-primary:hover {
+  background: var(--hover);
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h3 {
+  font-weight: 600;
+}
+
+.login-box {
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.login-box label {
+  color: #717082;
+}
+
+input {
+  color: #717082;
+  box-shadow: none;
+  outline: 0;
+}
+
+.login-title svg {
+  font-size: 70px;
+}
+
+.user-info {
+  padding-bottom: 40px;
+  border-bottom: 3px solid var(--color-1);
+}
+.user-info strong {
+  font-weight: 400;
+  color: var(--color-1);
+}
+
+.user-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.menu {
+  padding-top: 20px;
+}
+.menu-item {
+  padding: 10px;
+}
+.menu-item:not(:last-child) {
+  margin-bottom: 5px;
+}
+.menu-item:hover {
+  background: var(--color-1);
+}
+.menu-item:hover a,
+.menu-item:hover svg {
+  color: #fff;
+}
+.menu-link {
+  display: block;
+  color: gray;
+  font-size: 16px;
+}
+.menu-link svg {
+  font-size: 25px;
+  color: var(--color-1);
+  margin-right: 10px;
+}
+
+.right-bar {
+  background: var(--color-1);
+  border-radius: 0 10px 10px 0;
+  -webkit-border-radius: 0 10px 10px 0;
+  -moz-border-radius: 0 10px 10px 0;
+  -ms-border-radius: 0 10px 10px 0;
+  -o-border-radius: 0 10px 10px 0;
+  color: #ffffff;
+}
+
+.task-item {
+  background: #ffffff;
+  color: #717082;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.task-item:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.task-item:hover {
+  background: var(--hover);
+  color: #ffffff;
+}
+.task-item:hover svg {
+  fill: #ffffff;
+}
+.task-info svg {
+  font-size: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+
+.log-out {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+}
+.log-out a {
+  color: var(--color-1);
+  font-weight: 500;
+  display: block;
+  width: 100%;
+}
+.log-out a:hover {
+  color: red;
+}
+.log-out svg {
+  fill: #717082;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.add-form label {
+  color: #717082;
+}
+
+.logo-area img {
+  max-width: 60px;
+}
+
+.preview img {
+  max-width: 150px;
+  border-radius: 6px;
+}
+
+.error {
+  color: red;
+}/*# sourceMappingURL=index.css.map */

@@ -1,18 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router,  Route,Routes } from "react-router-dom"
-import { ItemList, Itemform, Login, Register } from './components';
-import Home from './Home';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { Itemform, Login, Register } from './components';
+import Home from './pages/Home';
+import DashboardLayout from './DashboardLayout';
+
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          <Route path='/' Component={Home} />
+          <Route path='/' element={<DashboardLayout><Home /></DashboardLayout>} />
           <Route path='/login' Component={Login} />
           <Route path='/register' Component={Register} />
-          {/* <Route  path='/task' Component={ItemList} /> */}
-          <Route  path='/add-task' Component={Itemform} />
+          <Route path='/add-task' element={<DashboardLayout><Itemform /></DashboardLayout>} />
         </Routes>
       </Router>
     </>
