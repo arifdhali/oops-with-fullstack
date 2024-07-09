@@ -2,23 +2,29 @@ const multer = require("multer");
 const path = require("path");
 
 const multerStorgeHandle = (folderName) => {
-    const storage = multer.diskStorage({
-        destination: function (req, res, cb) {
-            return cb(null, path.join(__dirname, `../public/upload/${folderName}`));
+    return multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, path.join(__dirname, `../public/upload/${folderName}`));
         },
         filename: (req, file, cb) => {
-            return cb(
-                null,
-                `${file.fieldname}-${file.originalname}`
-            );
-        },
+            cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
+        }
     });
-    return storage;
+};
+
+const fileFilter = (req, file, cb) => {
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error('Invalid file type. Only JPG and PNG are allowed.'), false);
+    }
 };
 
 const uploadMulter = (folder) => {
     return multer({
         storage: multerStorgeHandle(folder),
+        fileFilter: fileFilter
     });
 };
 

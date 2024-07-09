@@ -1,123 +1,222 @@
-import React, { useEffect, useState } from 'react'
-import { FaUserAlt } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import { FaUserAlt } from 'react-icons/fa';
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import axios from 'axios';
 
-import axios from "axios";
-const register = () => {
-  const [error, setError] = useState();
+const Register = () => {
+  const [error, setError] = useState({});
   const [input, setInput] = useState({
-    name: "",
-    email: "",
+    name: '',
+    email: '',
     profile_img: null,
-    password: ""
-  })
+    password: '',
+  });
   const [previewImage, setPreviewImage] = useState(null);
+  const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    // get the obj url of image to view the uploaded images
+    // Create object URL for previewing uploaded image
     if (input.profile_img) {
       const objUrl = URL.createObjectURL(input.profile_img);
       setPreviewImage(objUrl);
+      return () => URL.revokeObjectURL(objUrl);
+    } else {
+      setPreviewImage(null);
     }
+
   }, [input.profile_img]);
 
-
-  const handelInput = (e) => {
+  // Handle input changes
+  const handleInput = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "profile_img") {
+    if (name === 'profile_img') {
       setInput((prevInput) => ({
         ...prevInput,
-        [name]: files[0]
-
-      }))
+        [name]: files[0],
+      }));
     } else {
       setInput((prevInput) => ({
         ...prevInput,
-        [name]: value
-      }))
+        [name]: value,
+      }));
     }
-  }
-  axios.defaults.withCredentials = true;
+  };
 
-  const handelFormSubmit = (e) => {
+  // Name validation
+  const nameValidation = (name) => {
+    const nameRegex = /^[a-zA-Z\s'-]{2,40}$/;
+    let msg = '';
+    if (!name.trim()) {
+      return msg = 'Name is required';
+    } else if (!nameRegex.test(name)) {
+      return msg = 'Name should not include special characters';
+    }
+    return msg;
+  };
+
+  // Email validation
+  const emailValidation = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let msg = '';
+    if (!email.trim()) {
+      return msg = 'Email is required';
+    } else if (!emailRegex.test(email)) {
+      return msg = 'Email is not valid';
+    }
+    return msg;
+  };
+
+
+  // Password validation
+  const passwordValidation = (pass) => {
+    let msg = '';
+    let passLeng = 6;
+    let passRegx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+    if (!pass.trim()) {
+      return msg = "Password is required";
+    } else if (pass.length < passLeng) {
+      return msg = `Password should be at least ${passLeng} characters long`;
+    } else if (!passRegx.test(pass)) {
+      return msg = "Password should contain at least one lowercase letter, one uppercase letter, one digit, and one special character (@, $, !, %, *, ?, &)";
+    }
+    return msg;
+  }
+
+  // Form validation
+  const validation = () => {
+    const errors = {};
+    errors.name = nameValidation(input.name);
+    errors.email = emailValidation(input.email);
+    errors.password = passwordValidation(input.password);
+    setError(errors);
+    return errors;
+  };
+
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    let formData = new FormData();
-    for (let i in input) {
-      formData.append(i, input[i]);
+    // Validate form inputs
+    const errors = validation();
+
+    if (Object.values(errors).some((err) => err)) {
+      return false;
+    } else {
+      // Prepare form data for submission
+      const formData = new FormData();
+      for (let key in input) {
+        formData.append(key, input[key]);
+      }
+
+      try {
+        const response = await axios.post(`${process.env.BASE_URL}/user/register`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if (response.status === 200) {
+          setInput({
+            name: "",
+            email: "",
+            password: "",
+            profile_img: null, 
+          });
+          setPreviewImage(null); 
+        } else {
+          setError(response.data);
+        }
+      } catch (error) {
+        console.error('Error registering user:', error);
+      }
     }
-
-    axios.post("http://localhost:4000/user/register", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }).then(response => {
-      setError(response.data)
-    }).catch(error => {
-      console.error('Error registering user:', error);
-    });
-  }
-
-
-
+  };
   return (
     <div className="container">
       <div className="login-box">
         <div className="login-title text-center">
-          <FaUserAlt fill='#a18aff' className='text-primary mb-3' />
-          <h2 className='text-warning'>Registration form</h2>
+          <FaUserAlt fill="#a18aff" className="text-primary mb-3" />
         </div>
         <div className="login-form">
-          <form onSubmit={handelFormSubmit}>
+          <form onSubmit={handleFormSubmit}>
             <div className="form-group mb-2">
-              <label htmlFor="">Name</label>
-              <input name='name' onChange={handelInput} type="text" className="form-control py-2" />
-              {error?.message &&
-                <small className='error'>{error.message}</small>
-              }
+              <label htmlFor="name">Name</label>
+              <input
+                name="name"
+                onChange={handleInput}
+                value={input.name}
+                type="text"
+                className="form-control py-2"
+              />
+              {error.name && <small className="error">{error.name}</small>}
             </div>
             <div className="form-group mb-2">
-              <label htmlFor="">Email</label>
-              <input name='email' onChange={handelInput} type="email" className="form-control py-2" />
-              {error?.message &&
-                <small className='error'>{error.message}</small>
-              }
+              <label htmlFor="email">Email</label>
+              <input
+                name="email"
+                onChange={handleInput}
+                value={input.email}
+                type="text"
+                className="form-control py-2"
+              />
+              {error.email && <small className="error">{error.email}</small>}
             </div>
-            <div className='form-group mb-2'>
-              <label htmlFor="">Profile image</label>
-              <div className="input-group ">
-                <input name='profile_img' onChange={handelInput} type="file" className="form-control py-2" id="inputGroupFile02" />
-                <label className="input-group-text" htmlFor="inputGroupFile02">{previewImage ? "Re-upload" : "Upload"}</label>
+            <div className="form-group mb-2">
+              <label htmlFor="profile_img">Profile image</label>
+              <div className="input-group">
+                <input
+                  name="profile_img"
+                  onChange={handleInput}
+                  type="file"
+                  className="form-control py-2"
+                  id="inputGroupFile02"
+                />
+                <label className="input-group-text" htmlFor="inputGroupFile02">
+                  {previewImage ? 'Re-upload' : 'Upload'}
+                </label>
               </div>
-              <div>
-                {error?.message &&
-                  <small className='error'>{error.message}</small>
-                }
-              </div>
-              {
-                previewImage && (
-                  <div className="preview my-3 text-center">
-                    <img src={previewImage} alt="Preview-profile" />
-                  </div>
-                )
-              }
-
+              {error.message && <small className="error">{error.message}</small>}
+              {previewImage && (
+                <div className="preview my-3 text-center">
+                  <img src={previewImage} alt="Preview-profile" style={{ maxWidth: '100%' }} />
+                </div>
+              )}
             </div>
             <div className="form-group">
-              <label htmlFor="">Password</label>
-              <input name='password' onChange={handelInput} type="password" className="form-control py-2" />
-              {error?.message &&
-                <small className='error'>{error.message}</small>
-              }
+              <label htmlFor="password">Password</label>
+              <div className='position-relative'>
+                <input
+                  name="password"
+                  onChange={handleInput}
+                  value={input.password}
+                  type={showPass ? "text" : "password"}
+                  className="form-control py-2"
+                />
+                <div className='password-show position-absolute top-50 end-0 translate-middle' onClick={() => setShowPass((prev) => !prev)} >
+                  {
+                    showPass ? <FaRegEye /> : <FaRegEyeSlash />
+                  }
+
+                </div>
+              </div>
+              {error.password && <small className="error">{error.password}</small>}
             </div>
             <div className="submit-button mt-4">
-              <button type="submit" className="btn btn-primary w-100 py-2">Register</button>
+              <button type="submit" className="btn btn-primary w-100 py-2">
+                Register
+              </button>
             </div>
+            {error?.successMessage &&
+              <div>
+                <p className='mb-0 mt-2 text-success'>{error?.successMessage}</p>
+              </div>
+            }
           </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default register
+export default Register;
