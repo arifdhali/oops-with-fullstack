@@ -3,15 +3,41 @@ const { registerUsers } = require("../models/user.model");
 const userController = {
     userRegister: (req, res) => {
         const { name, email, password } = req.body;
-
-        // Validate file upload
-        if (!req.file) {
-            return res.status(400).json({
-                status: false,
-                error: "No file selected for profile photo"
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        let error = {};
+        const nameRegex = /^[a-zA-Z\s'-]{2,40}$/;
+        if (!name.trim()) {
+            return res.status(403).json({
+                name: 'Name is required',
+            })
+        } else if (!nameRegex.test(name)) {
+            return res.status(403).json({
+                name: 'Name should not include special characters',
+            })
+        }
+        // Validate email
+        if (!email.trim()) {
+            return res.status(403).json({
+                error: {
+                    email: 'Email is required',
+                }
+            });
+        } else if (!emailRegex.test(email)) {
+            return res.status(403).json({
+                error: {
+                    email: `Email is not valid. Don't use white space`,
+                }
             });
         }
-        const { filename } = req.file;
+
+
+        // Check if file is uploaded
+        let filename = null;
+        if (req.file) {
+            filename = req.file.filename;
+        } else {
+            console.log(req.file)
+        }
 
         // Prepare user data array
         const userdata = [name, email, filename, password];
@@ -26,7 +52,8 @@ const userController = {
             } else {
                 return res.status(200).json({
                     status: true,
-                    successMessage: "Successfully registered"
+                    message: result.message,
+                    data: result.user || result.result
                 });
             }
         });

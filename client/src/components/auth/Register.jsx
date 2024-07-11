@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { FaUserAlt } from 'react-icons/fa';
-import { FaRegEye } from "react-icons/fa";
-import { FaRegEyeSlash } from "react-icons/fa";
+import { FaUserAlt, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const redirect = useNavigate();
   const [error, setError] = useState({});
   const [input, setInput] = useState({
     name: '',
     email: '',
-    profile_img: null,
+    profile_img: '',
     password: '',
   });
   const [previewImage, setPreviewImage] = useState(null);
   const [showPass, setShowPass] = useState(false);
 
   useEffect(() => {
-    // Create object URL for previewing uploaded image
     if (input.profile_img) {
       const objUrl = URL.createObjectURL(input.profile_img);
       setPreviewImage(objUrl);
       return () => URL.revokeObjectURL(objUrl);
     } else {
-      setPreviewImage(null);
+      setPreviewImage('');
     }
-
   }, [input.profile_img]);
 
-  // Handle input changes
   const handleInput = (e) => {
     const { name, value, files } = e.target;
 
@@ -44,7 +41,6 @@ const Register = () => {
     }
   };
 
-  // Name validation
   const nameValidation = (name) => {
     const nameRegex = /^[a-zA-Z\s'-]{2,40}$/;
     let msg = '';
@@ -56,7 +52,6 @@ const Register = () => {
     return msg;
   };
 
-  // Email validation
   const emailValidation = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let msg = '';
@@ -68,12 +63,10 @@ const Register = () => {
     return msg;
   };
 
-
-  // Password validation
   const passwordValidation = (pass) => {
     let msg = '';
-    let passLeng = 6;
-    let passRegx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+    const passLeng = 6;
+    const passRegx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
     if (!pass.trim()) {
       return msg = "Password is required";
     } else if (pass.length < passLeng) {
@@ -82,10 +75,10 @@ const Register = () => {
       return msg = "Password should contain at least one lowercase letter, one uppercase letter, one digit, and one special character (@, $, !, %, *, ?, &)";
     }
     return msg;
-  }
+  };
 
-  // Form validation
   const validation = () => {
+    return true;
     const errors = {};
     errors.name = nameValidation(input.name);
     errors.email = emailValidation(input.email);
@@ -94,17 +87,12 @@ const Register = () => {
     return errors;
   };
 
-  // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate form inputs
     const errors = validation();
-
     if (Object.values(errors).some((err) => err)) {
-      return false;
+      return;
     } else {
-      // Prepare form data for submission
       const formData = new FormData();
       for (let key in input) {
         formData.append(key, input[key]);
@@ -117,13 +105,7 @@ const Register = () => {
           },
         });
         if (response.status === 200) {
-          setInput({
-            name: "",
-            email: "",
-            password: "",
-            profile_img: null, 
-          });
-          setPreviewImage(null); 
+          redirect("/login");
         } else {
           setError(response.data);
         }
@@ -132,6 +114,7 @@ const Register = () => {
       }
     }
   };
+
   return (
     <div className="container">
       <div className="login-box">
@@ -176,7 +159,7 @@ const Register = () => {
                   {previewImage ? 'Re-upload' : 'Upload'}
                 </label>
               </div>
-              {error.message && <small className="error">{error.message}</small>}
+              {error.profile_img && <small className="error">{error.profile_img}</small>}
               {previewImage && (
                 <div className="preview my-3 text-center">
                   <img src={previewImage} alt="Preview-profile" style={{ maxWidth: '100%' }} />
@@ -194,10 +177,7 @@ const Register = () => {
                   className="form-control py-2"
                 />
                 <div className='password-show position-absolute top-50 end-0 translate-middle' onClick={() => setShowPass((prev) => !prev)} >
-                  {
-                    showPass ? <FaRegEye /> : <FaRegEyeSlash />
-                  }
-
+                  {showPass ? <FaRegEye /> : <FaRegEyeSlash />}
                 </div>
               </div>
               {error.password && <small className="error">{error.password}</small>}
@@ -207,11 +187,11 @@ const Register = () => {
                 Register
               </button>
             </div>
-            {error?.successMessage &&
+            {error.successMessage && (
               <div>
-                <p className='mb-0 mt-2 text-success'>{error?.successMessage}</p>
+                <p className='mb-0 mt-2 text-success'>{error.successMessage}</p>
               </div>
-            }
+            )}
           </form>
         </div>
       </div>
