@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const redirect = useNavigate();
   const [error, setError] = useState({});
+
   const [input, setInput] = useState({
     name: '',
     email: '',
@@ -47,7 +48,7 @@ const Register = () => {
     if (!name.trim()) {
       return msg = 'Name is required';
     } else if (!nameRegex.test(name)) {
-      return msg = 'Name should not include special characters';
+      return msg = 'Name should not include number or special characters';
     }
     return msg;
   };
@@ -78,7 +79,6 @@ const Register = () => {
   };
 
   const validation = () => {
-    return true;
     const errors = {};
     errors.name = nameValidation(input.name);
     errors.email = emailValidation(input.email);
@@ -104,20 +104,32 @@ const Register = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        if (response.status === 200) {
+        // redirect login page based on the status
+        const { status, message } = response?.data?.userData;
+        if (status) {
+          setError({
+            message: message
+          })
           redirect("/login");
         } else {
-          setError(response.data);
+          setError({
+            message: message
+          })
         }
       } catch (error) {
         console.error('Error registering user:', error);
       }
     }
   };
-
+  console.log(error);
   return (
     <div className="container">
       <div className="login-box">
+        {error.message &&
+          <div className='text-center'>
+            <small className="error">{error.message}</small>
+          </div>
+        }
         <div className="login-title text-center">
           <FaUserAlt fill="#a18aff" className="text-primary mb-3" />
         </div>

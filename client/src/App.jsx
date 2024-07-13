@@ -4,7 +4,6 @@ import { Itemform, Login, Register } from './components';
 import Home from './pages/Home';
 import DashboardLayout from './DashboardLayout';
 
-
 const App = () => {
   return (
     <>

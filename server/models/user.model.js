@@ -1,33 +1,40 @@
-// user.model.js
+const Base_modal = require("../models/base.model");
 
-const { connection } = require("../config/config");
-
-
-const userModels = {
-    registerUsers: (userdata, cb) => {
-        const [name, email, image, password] = userdata;
-
-        // Check if the email exists or not
-        let selectEmail = `SELECT user_email FROM users WHERE user_email = ?`;
-        connection.query(selectEmail, [email], (err, result) => {
-            if (err) {
-                return cb(err, null);
-            }
-            if (result.length > 0) {
-                // console.log('Email exists:', result);
-                return cb(null, { message: 'Email already exists', user: result });
-            } else {
-                let insertQuery = 'INSERT INTO users (user_name, user_email, user_image, user_password) VALUES (?, ?, ?, ?)';
-                connection.query(insertQuery, [name, email, image, password], (err, result) => {
-                    if (err) {
-                        return cb(err, null);
-                    } else {
-                        return cb(null, { message: 'User registered successfully', result });
-                    }
-                });
-            }
-        });
+class User extends Base_modal {
+    constructor(name, email, image, password) {
+        super();
+        (this.name = name),
+            (this.email = email),
+            (this.image = image),
+            (this.password = password);
     }
-};
+    static async registerUser(user) {
+        const { name, email, image, password } = user;
+        try {
+            let emailExitquery = await this.querySql(
+                "SELECT user_email FROM users WHERE user_email = ?",
+                [email]
+            );
+            if (emailExitquery.length > 0) {
+                return {
+                    status: false,
+                    message: "Email already exists",
+                    result: emailExitquery,
+                };
+            } else {
+                 await this.querySql(
+                    "INSERT INTO users (user_name,user_email,user_image,user_password) VALUES(?,?,?,?)",
+                    [name, email, image, password]
+                );
+                return {
+                    status: true,
+                    message: "User registered successfully",
+                };
+            }
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+}
 
-module.exports = userModels;
+module.exports = User;
