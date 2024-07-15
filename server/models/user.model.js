@@ -1,4 +1,6 @@
 const Base_modal = require("../models/base.model");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 class User extends Base_modal {
     constructor(name, email, image, password) {
@@ -10,6 +12,8 @@ class User extends Base_modal {
     }
     static async registerUser(user) {
         const { name, email, image, password } = user;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        console.log(hashedPassword);
         try {
             let emailExitquery = await this.querySql(
                 "SELECT user_email FROM users WHERE user_email = ?",
@@ -22,9 +26,9 @@ class User extends Base_modal {
                     result: emailExitquery,
                 };
             } else {
-                 await this.querySql(
+                await this.querySql(
                     "INSERT INTO users (user_name,user_email,user_image,user_password) VALUES(?,?,?,?)",
-                    [name, email, image, password]
+                    [name, email, image, hashedPassword]
                 );
                 return {
                     status: true,
