@@ -1,13 +1,19 @@
 import React from "react";
-import { BiTask } from "react-icons/bi";
 import { MdOutlineAddTask } from "react-icons/md";
-import { Link } from "react-router-dom";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
+
+import Logo from "../assets/logo.png";
 
 const LeftDashboard = () => {
     return (
         <div className="col-2">
-            <div className="left-bar py-5 position-relative h-100">
+            <div className="left-bar pb-5 position-relative h-100">
+                <div className="logo-area text-center mb-2">
+                    <Link to={'/'}>
+                        <img src={Logo} alt="Logo" />
+                    </Link>
+                </div>
                 <div className="user-info d-flex align-items-center">
                     <img
                         className="user-img"
