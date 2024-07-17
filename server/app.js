@@ -19,7 +19,7 @@ const userRoutes = require("./routes/user.routes")
 
 
 // User routes 
-app.use("/user", userRoutes);
+app.use("/auth", userRoutes);
 
 
 

@@ -10,6 +10,7 @@ class User extends Base_modal {
             (this.image = image),
             (this.password = password);
     }
+    // register user
     static async registerUser(user) {
         const { name, email, image, password } = user;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -33,6 +34,37 @@ class User extends Base_modal {
                 return {
                     status: true,
                     message: "User registered successfully",
+                };
+            }
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+    // login user
+    static async loginUser(email, password) {
+        try {
+            let emailExists = await this.querySql('SELECT user_email, user_password FROM users WHERE user_email = ?', [email]);
+    
+            if (emailExists.length < 1) {
+                return {
+                    status: false,
+                    message: "User not found",
+                };
+            } else {
+                const user = emailExists[0];                
+                const comparePass = await bcrypt.compare(password, user.user_password);
+    
+                if (!comparePass) {
+                    return {
+                        status: false,
+                        message: "Incorrect password",
+                    };
+                }
+    
+                return {
+                    status: true,
+                    message: "User logged in successfully",
+                    result: user
                 };
             }
         } catch (err) {

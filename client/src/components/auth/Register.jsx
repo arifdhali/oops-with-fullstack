@@ -99,7 +99,7 @@ const Register = () => {
       }
 
       try {
-        const response = await axios.post(`${process.env.BASE_URL}/user/register`, formData, {
+        const response = await axios.post(`${process.env.BASE_URL}/auth/register`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
