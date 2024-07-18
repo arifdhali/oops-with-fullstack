@@ -23,8 +23,10 @@ const Login = () => {
       `${process.env.BASE_URL}/auth/login`,
       input
     );
+    
     setResponse(response.data.login_data);
   };
+  console.log(response);
 
   return (
     <div className="container">

@@ -1,6 +1,9 @@
 const Base_modal = require("../models/base.model");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
+
 
 class User extends Base_modal {
     constructor(name, email, image, password) {
@@ -43,28 +46,34 @@ class User extends Base_modal {
     // login user
     static async loginUser(email, password) {
         try {
-            let emailExists = await this.querySql('SELECT user_email, user_password FROM users WHERE user_email = ?', [email]);
-    
+            let emailExists = await this.querySql('SELECT * FROM users WHERE user_email = ?', [email]);
+
             if (emailExists.length < 1) {
                 return {
                     status: false,
                     message: "User not found",
                 };
             } else {
-                const user = emailExists[0];                
+                const user = emailExists[0];
                 const comparePass = await bcrypt.compare(password, user.user_password);
-    
+
                 if (!comparePass) {
                     return {
                         status: false,
                         message: "Incorrect password",
                     };
                 }
-    
+                const token = jwt.sign({
+                    username: user.user_name,
+                    username: user.user_image,
+                }, 'secretkey', {
+                    expiresIn: '1h'
+                })
+
                 return {
                     status: true,
                     message: "User logged in successfully",
-                    result: user
+                    token: token,
                 };
             }
         } catch (err) {
