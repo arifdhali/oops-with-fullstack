@@ -26,7 +26,6 @@ const Login = () => {
     
     setResponse(response.data.login_data);
   };
-  console.log(response);
 
   return (
     <div className="container">
@@ -60,7 +59,7 @@ const Login = () => {
 
             <div className="form-group">
               <p>
-                Don't have accont? <Link to={"/register"}>Register</Link>
+                Don't have accont? <Link to={"/auth/register"}>Register</Link>
               </p>
             </div>
             <div className="submit-button mt-4">

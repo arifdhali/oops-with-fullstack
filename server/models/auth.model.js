@@ -1,9 +1,7 @@
-const Base_modal = require("../models/base.model");
+const Base_modal = require("./base.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
-
 
 class User extends Base_modal {
     constructor(name, email, image, password) {
@@ -44,7 +42,7 @@ class User extends Base_modal {
         }
     }
     // login user
-    static async loginUser(email, password) {
+    static async loginUser(email, password, res) {
         try {
             let emailExists = await this.querySql('SELECT * FROM users WHERE user_email = ?', [email]);
 
@@ -63,17 +61,18 @@ class User extends Base_modal {
                         message: "Incorrect password",
                     };
                 }
+
+                const { user_name, user_image } = user;                                
                 const token = jwt.sign({
-                    username: user.user_name,
-                    username: user.user_image,
+                    user: { user_name, user_image },
                 }, 'secretkey', {
                     expiresIn: '1h'
-                })
+                });
 
+                res.cookie('loginToken', token, { httpOnly: true });
                 return {
                     status: true,
                     message: "User logged in successfully",
-                    token: token,
                 };
             }
         } catch (err) {

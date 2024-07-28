@@ -103,9 +103,9 @@ const Register = () => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        });
+        });                
         // redirect login page based on the status
-        const { status, message } = response?.data?.userData;
+        const { status, message } = response?.data?.data;
         if (status) {
           setError({
             message: message

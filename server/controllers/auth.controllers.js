@@ -1,5 +1,5 @@
 
-const User = require("../models/user.model");
+const User = require("../models/auth.model");
 
 const userController = {
     userRegister: async (req, res) => {
@@ -10,9 +10,9 @@ const userController = {
         let user = new User(name, email, filename, password);
 
         try {
-            const userData = await User.registerUser(user);
+            const data = await User.registerUser(user);
             return res.status(200).json({
-                userData
+                data
             });
         } catch (err) {
             return res.status(500).json({
@@ -24,9 +24,9 @@ const userController = {
     userLogin: async (req, res) => {
         const { email, password } = req.body;
         try {
-            let login_data = await User.loginUser(email, password);
+            let data = await User.loginUser(email, password, res);
             return res.status(200).json({
-                login_data
+                data
             });
 
         } catch (err) {
@@ -36,6 +36,10 @@ const userController = {
             });
         }
 
+    },
+    userLogout: async (req, res) => {
+        res.clearCookie('loginToken');  
+        return res.status(200).json({ status: true, message: "Logged out successfully" });
     }
 };
 

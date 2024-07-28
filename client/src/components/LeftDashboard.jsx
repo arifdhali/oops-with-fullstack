@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineAddTask } from "react-icons/md";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 
 import Logo from "../assets/logo.png";
+import axios from "axios";
 
 const LeftDashboard = () => {
+    const navigate = useNavigate();
+    const [logOut, setLogOut] = useState('');
+
+
+    const handelLogout = async (e) => {
+        e.preventDefault();
+        const confirmLogout = confirm("Do you want to logout?");
+        if (confirmLogout) {
+            try {
+                let response = await axios.post(`${process.env.BASE_URL}/auth/logout`);
+                if (response.status === 200) {
+                    setLogOut(response.data.status);
+                    console.log(response.data.message);
+                    // Redirect to login after successful logout
+                    if(response.data.status){
+                        navigate("/auth/login");
+                    }
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
     return (
         <div className="col-2">
             <div className="left-bar pb-5 position-relative h-100">
@@ -42,7 +66,9 @@ const LeftDashboard = () => {
                     <span>
                         <RiLogoutCircleRLine />
                     </span>
-                    <a href="">Logout</a>
+                    <button onClick={handelLogout}>
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>

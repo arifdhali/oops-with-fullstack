@@ -1,14 +1,24 @@
 // DashboardLayout.js
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { LeftDashboard } from './components';
+import { MainContext } from './context/UserContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const DashboardLayout = ({ children }) => {
-    console.log(children);
+    const [valid, setValid] = useState();
+    const navigate = useNavigate();
+    const { userInfo } = useContext(MainContext);
+    const { status } = userInfo;
+    if (status) {
+        navigate("/auth/login");
+    }
+
     return (
         <div className="row vh-100 p-3">
             <LeftDashboard />
 
-            <div className="col-10">                
+            <div className="col-10">
                 <div className="right-bar p-5 h-100">
                     <div className="page-headline">
                         <span>Today main focus </span>
