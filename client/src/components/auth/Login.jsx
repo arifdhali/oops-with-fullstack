@@ -1,16 +1,18 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoPasskeyFill } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 const Login = () => {
-  const [response, setResponse] = useState();
+  const navigate = useNavigate();
+  const [response, setResponse] = useState(null);
   const [input, setInput] = useState({
     email: "",
     password: "",
   });
+
   const handelInput = (e) => {
     const { value, name } = e.target;
-
     setInput((prevData) => ({
       ...prevData,
       [name]: value,
@@ -19,13 +21,23 @@ const Login = () => {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      `${process.env.BASE_URL}/auth/login`,
-      input
-    );
-    
-    setResponse(response.data.login_data);
+    try {
+      const response = await axios.post(
+        `${process.env.BASE_URL}/auth/login`,
+        input
+      );
+      setResponse(response.data.data);
+    } catch (error) {
+      console.error("Error during login:", error);
+      setResponse({ status: false, message: "Login failed" });
+    }
   };
+
+  useEffect(() => {
+    if (response?.status) {
+      navigate('/');
+    }
+  }, [response, navigate]);
 
   return (
     <div className="container">
@@ -35,7 +47,6 @@ const Login = () => {
           <h2 className="text-warning">Login form</h2>
         </div>
         <div className="login-form">
-
           <form onSubmit={handelSubmit}>
             <div className="form-group mb-2">
               <label htmlFor="">Email</label>
@@ -55,11 +66,10 @@ const Login = () => {
                 className="form-control py-2"
               />
             </div>
-            <small className="error"> {response && response.message}</small>
-
+            <small className="error">{response && response.message}</small>
             <div className="form-group">
               <p>
-                Don't have accont? <Link to={"/auth/register"}>Register</Link>
+                Don't have an account? <Link to={"/auth/register"}>Register</Link>
               </p>
             </div>
             <div className="submit-button mt-4">

@@ -1,18 +1,19 @@
 // DashboardLayout.js
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { LeftDashboard } from './components';
 import { MainContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 
-const DashboardLayout = ({ children }) => {
-    const [valid, setValid] = useState();
+const DashboardLayout = ({ children }) => {    
     const navigate = useNavigate();
     const { userInfo } = useContext(MainContext);
     const { status } = userInfo;
-    if (status) {
-        navigate("/auth/login");
-    }
+    useEffect(() => {
+        if (!status) {
+            navigate("/auth/login");
+        }
+    }, [status])
 
     return (
         <div className="row vh-100 p-3">

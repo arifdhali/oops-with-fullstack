@@ -24,7 +24,7 @@ const userController = {
     userLogin: async (req, res) => {
         const { email, password } = req.body;
         try {
-            let data = await User.loginUser(email, password, res);
+           let data = await User.loginUser(email, password, res);
             return res.status(200).json({
                 data
             });

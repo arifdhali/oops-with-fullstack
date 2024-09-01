@@ -39,4 +39,3 @@ const UserContext = ({ children }) => {
 
 // Named exports for easier import
 export { MainContext, UserContext };
-``
