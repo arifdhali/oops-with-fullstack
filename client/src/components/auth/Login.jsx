@@ -69,7 +69,7 @@ const Login = () => {
             <small className="error">{response && response.message}</small>
             <div className="form-group">
               <p>
-                Don't have an account? <Link to={"/auth/register"}>Register</Link>
+                Don't have an account? <Link to={"/register"}>Register</Link>
               </p>
             </div>
             <div className="submit-button mt-4">

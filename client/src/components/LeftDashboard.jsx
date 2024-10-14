@@ -22,7 +22,7 @@ const LeftDashboard = () => {
                     console.log(response.data.message);
                     // Redirect to login after successful logout
                     if(response.data.status){
-                        navigate("/auth/login");
+                        navigate("/login");
                     }
                 }
             } catch (err) {

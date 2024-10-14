@@ -13,8 +13,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path='/' element={<DashboardLayout><Home /></DashboardLayout>} />
-          <Route path='/auth/login' Component={Login} />
-          <Route path='/auth/register' Component={Register} />
+          <Route path='/login' Component={Login} />
+          <Route path='/register' Component={Register} />
           <Route path='/add-task' element={<DashboardLayout><Itemform /></DashboardLayout>} />
           {/* <Route path='*' Component={<Error_page/>} /> */}
         </Routes>

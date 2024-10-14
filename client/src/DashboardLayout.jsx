@@ -11,7 +11,7 @@ const DashboardLayout = ({ children }) => {
     const { status } = userInfo;
     useEffect(() => {
         if (!status) {
-            navigate("/auth/login");
+            navigate("/login");
         }
     }, [status])
 
